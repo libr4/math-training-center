@@ -4,9 +4,10 @@ function randomNumber(max = 4, min = 0) {
   return parseInt((Math.random() * (max - min)) + min);
 }
 
-function reduceDouble(n) {
+function reduceDouble(n, places) {
   let k = `${n}`;
-  return k.match(/[\d]+[.][\d]{2}/);
+  let regex = new RegExp(`[\\d]+[.][\\d]{${places}}`);
+  return k.match(regex);
 }
   
 function putParenthesis(str) {

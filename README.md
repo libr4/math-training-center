@@ -1,4 +1,4 @@
-A web based math game, which gives you increasingly harder arithmetic expressions, so that, the faster you answer, the more points you get. All the expressions are always greater than or equal to zero.
+A web based math game, which gives you increasingly harder arithmetic expressions, so that, the faster you answer, the more points you get. The expressions are always greater than or equal to zero.
 
 This app is still in development and it's been built with Reactjs.
 
