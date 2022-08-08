@@ -1,15 +1,18 @@
-import React from 'react'
-import { useAppContext } from '../context/AppContext'
+import React, {useRef} from 'react'
+import { useAppContext } from '../context/AppContext';
 import { reduceDouble } from './utilities';
+import styles from './styles/Sidebar.module.scss';
 
-export default function Sidebar() {
+export default function Sidebar({children}) {
   const {points, answerTime, velocity} = useAppContext();  
+ 
   return (
-    <div>
+    <div className={styles['sidebar']}>
+        {children}
         <ul>
             <li>SCORE: {reduceDouble(points, 2) || 0}</li>
             <li>LAST ANSWER TIME: {answerTime}</li>
-            <li>VELOCITY: {reduceDouble(velocity, 1)}ms/question</li>
+            <li>VELOCITY: {reduceDouble(velocity, 2)}ms/question</li> {/** gotta handle velocity = 0 */}
         </ul>
     </div>
   )

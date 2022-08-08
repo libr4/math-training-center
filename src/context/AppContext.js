@@ -1,4 +1,4 @@
-import React, {useContext, useState, useReducer} from 'react';
+import React, {useContext, useReducer} from 'react';
 import reducer from './reducer.js';
 import * as utilities from '../components/utilities.js'
 
@@ -16,7 +16,6 @@ export {initialState};
 
 const AppContext = React.createContext();
 
-
 export function AppProvider({children}) {
     
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -25,14 +24,14 @@ export function AppProvider({children}) {
         let questionTime = Date.now();
         dispatch({type:"QUESTION_TIME", payload:questionTime});
       }
-    
+
       function answerTimeCalc() {
         let currentTime = Date.now();
         let answerTime = currentTime - state.questionTime;
         let totalTime = state.totalTime + answerTime;
         dispatch({type:"ANSWER_TIME", payload:{answerTime, totalTime}});
       }
-    
+
       function writeExpression() {
         let expression = utilities.expressionGenerator(state.numberOfOperations, state.level);
         dispatch({type:"MAKE_EXPRESSION", payload:expression});
@@ -45,8 +44,9 @@ export function AppProvider({children}) {
         // console.log(state.question)
       }
     
-      function updatePoints() {
-        let points = state.points + 100000/state.answerTime;
+      function updatePoints(currentScore, ansTime) {
+        // console.log("updt", points, ansTime)
+        let points = 100000/ansTime;
         dispatch({type:"UPDATE_POINTS", payload:points});
       }
     
@@ -60,6 +60,10 @@ export function AppProvider({children}) {
           let level = currentLevel + 1;
           dispatch({type:"SET_DIFFICULTY", payload:level});
         }
+      }
+
+      function setName() {
+
       }
 
       return <AppContext.Provider value={{...state, answerTimeCalc, writeExpression, callNextQuestion, 

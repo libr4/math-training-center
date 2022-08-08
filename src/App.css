@@ -3,9 +3,13 @@
   align-items: center;
   justify-content: center;
 }
+.firstthird {
+  width: 30%;
+}
 
 .main {
   text-align: center;
+  width: 30%;
   
 }
 

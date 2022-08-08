@@ -1,0 +1,20 @@
+.createRoomContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.create {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.rooms {
+    height: 200px;
+    width: 30vw;
+    border: 1px solid black;
+}

@@ -1,0 +1,15 @@
+.headerP2 {
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: black;
+}
+
+.secondPlayer {
+    height: 128px;
+    width: 128px;
+    pointer-events: none;
+}

@@ -13,7 +13,7 @@ const reducer = (state, action) => {
         case "UPDATE_POINTS":
             return {
                 ...state,
-                points: action.payload
+                points: state.points + action.payload
             }
         case "QUESTION_TIME":
             return {
