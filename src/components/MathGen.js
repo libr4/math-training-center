@@ -1,10 +1,11 @@
+
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 export default function MathGen() {
-    function easyLevel() {
-        
-    }
+    const params = useParams()
+    console.log(params)
   return (
-    <div>MathGen</div>
+    <div>{JSON.stringify(params)}</div>
   )
 }

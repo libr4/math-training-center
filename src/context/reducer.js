@@ -36,8 +36,22 @@ const reducer = (state, action) => {
                 ...state,
                 level:action.payload
             }
-
-
+        case "CREATE_ROOM":
+            return {
+                ...state,
+                roomName:action.payload
+            }
+        case "SET_NAME":
+            return {
+                ...state,
+                playerName:action.payload
+            }
+        case "PUSH_NAME":
+            console.log(action.payload);
+            return {
+                ...state,
+                playerList:[...action.payload]
+            }
     }
 }
 

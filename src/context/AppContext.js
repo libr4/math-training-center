@@ -1,6 +1,7 @@
 import React, {useContext, useReducer} from 'react';
 import reducer from './reducer.js';
-import * as utilities from '../components/utilities.js'
+import * as utilities from '../components/utilities.js';
+import { useSocketContext } from './SocketContext.js';
 
 let initialState = {
     numberOfOperations: 1,
@@ -11,7 +12,10 @@ let initialState = {
     answer:'',
     points:0,
     answerTime:0, questionTime:0, velocity:0, totalTime:0,
-  }
+    roomName:'',
+    playerList:[],
+    playerName:''
+}
 export {initialState};
 
 const AppContext = React.createContext();
@@ -19,6 +23,8 @@ const AppContext = React.createContext();
 export function AppProvider({children}) {
     
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    const socket = useSocketContext();
 
     function setQuestionTime() {
         let questionTime = Date.now();
@@ -33,8 +39,9 @@ export function AppProvider({children}) {
       }
 
       function writeExpression() {
-        let expression = utilities.expressionGenerator(state.numberOfOperations, state.level);
-        dispatch({type:"MAKE_EXPRESSION", payload:expression});
+        let info = {numberOfOperations:state.numberOfOperations, level:state.level, roomName:state.roomName};
+        socket.emit('expression', info);
+        // dispatch({type:"MAKE_EXPRESSION", payload:expression});
         setQuestionTime();
       }
     
@@ -62,12 +69,19 @@ export function AppProvider({children}) {
         }
       }
 
-      function setName() {
+      function setRoomName(name) {
+        dispatch({type:"CREATE_ROOM", payload:name});
+      }
 
+      function setPlayerName(name) {
+        dispatch({type:"SET_NAME", payload:name});
+      }
+      function pushPlayerList(name) {
+        dispatch({type:"PUSH_NAME", payload:name});
       }
 
       return <AppContext.Provider value={{...state, answerTimeCalc, writeExpression, callNextQuestion, 
-                updatePoints, velocityCalc, setDifficulty}}>{children}</AppContext.Provider>
+                updatePoints, velocityCalc, setDifficulty, setRoomName, setPlayerName, pushPlayerList}}>{children}</AppContext.Provider>
 }
 
 function useAppContext() {

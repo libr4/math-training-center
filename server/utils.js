@@ -1,15 +1,9 @@
 import {evaluate} from 'mathjs';
 
 function randomNumber(max = 4, min = 0) {
-  return parseInt((Math.random() * (max - min)) + min);
+    return parseInt((Math.random() * (max - min)) + min);
 }
 
-function reduceDouble(n, places) {
-  let k = `${n}`;
-  let regex = new RegExp(`[\\d]+[.][\\d]{${places}}`);
-  return k.match(regex);
-}
-  
 function putParenthesis(str) {
 	let finalExpression = str.replace(/\d+\s[/*]\s\d+/g, '($&)');
 	return finalExpression;
@@ -25,7 +19,7 @@ function getRandomOperation(max = 4, min = 0) {
 	  const opCode = parseInt((Math.random() * (max - min)) + min);
 	  return operations[opCode];
 }
-	
+
 function catchLevel(number = 0) {
 	const level = {}
 	
@@ -99,10 +93,10 @@ function catchLevel(number = 0) {
 	}
 }
 
-function expressionGenerator(n, level) {
+export function expressionGenerator(n, level) {
 	//the main purpose of this function is that, given a n number of operations, it returns an arithmetic expression, which the result is always an integer and (likely) positive.
-    let  exp = []
-    let lastOperator;
+        let  exp = []
+        let lastOperator;
 		let nIsEven = n % 2 == 0;
 		
 		for (let i = 0; i < n; i++) {
@@ -171,5 +165,3 @@ function expressionGenerator(n, level) {
 
 	return expression;
 }
-
-export {randomNumber, getRandomOperation, putParenthesis, putSpaces, catchLevel, expressionGenerator, reduceDouble};

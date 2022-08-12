@@ -12,7 +12,7 @@ export default function Homepage() {
       </Link>
 
       <Link to='/multiplayer' className={styles['link']}>
-        <button>Create Room (Multiplayer)</button>
+        <button>MULTIPLAYER</button>
       </Link>
 
       <Link to='/' className={styles['link']}>

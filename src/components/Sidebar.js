@@ -1,6 +1,6 @@
 import React, {useRef} from 'react'
-import { useAppContext } from '../context/AppContext';
-import { reduceDouble } from './utilities';
+import { useAppContext } from '../context/AppContext.js';
+import { reduceDouble } from './utilities.js';
 import styles from './styles/Sidebar.module.scss';
 
 export default function Sidebar({children}) {
@@ -15,5 +15,5 @@ export default function Sidebar({children}) {
             <li>VELOCITY: {reduceDouble(velocity, 2)}ms/question</li> {/** gotta handle velocity = 0 */}
         </ul>
     </div>
-  )
+  );
 }

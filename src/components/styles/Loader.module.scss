@@ -1,0 +1,14 @@
+.loader {
+    width: 32px;
+    height: 32px;
+    animation: spin 1s infinite ease-out;
+}
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,58 @@
+.page {
+    display: flex;
+    justify-content: space-around;
+    // align-items: baseline;
+    // margin-top: 10em;
+    // height: 100vh;
+    width: 100vw;
+}
+
+.ladoUm {
+    text-align: center;
+    // width: 30%;
+    img {
+        width:128px;
+        height: 128px;
+    }
+}
+
+.ladoDois {
+    // margin-top:50px;
+    // height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    // gap: 50px;
+
+    input {
+        // margin-top: 100px;
+    }
+    p {
+    //    margin-bottom:100px;
+    
+    }
+
+    .loader {
+        animation: spin 1s ease-out;
+    }
+}
+
+.ladoTres {
+    text-align: center;
+    // width: 30%;
+    img {
+        width:128px;
+        height: 128px;
+    }
+}
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
