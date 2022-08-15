@@ -4,6 +4,6 @@ import loader from '../loader.svg'
 
 export default function Loader() {
   return (
-    <img src={loader} alt='loader' className={styles['loader']} ></img>
+    <div><img src={loader} alt='loader' className={styles['loader']} ></img></div>
   )
 }

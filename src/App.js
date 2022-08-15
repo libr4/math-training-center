@@ -5,7 +5,6 @@ import {evaluate} from 'mathjs';
 import { useEffect, useRef, useState } from 'react';
 import Sidebar from './components/Sidebar.js';
 import { useAppContext } from './context/AppContext.js';
-// import io from 'socket.io-client'
 import PlayerTwo from './components/PlayerTwo.js';
 import { useSocketContext } from './context/SocketContext.js';
 import { Outlet } from 'react-router-dom';
@@ -71,7 +70,7 @@ function App() {
     return classes.join(' ');
   }
 
-  useEffect(()=>writeExpression(), []); //generates first expression on website
+  useEffect(()=>writeExpression(), []); //generates first expression on website;
 
   function answerTim() {
     let currentTime = Date.now();

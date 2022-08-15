@@ -24,7 +24,7 @@
     justify-content: flex-end;
     align-items: center;
     text-align: center;
-    // gap: 50px;
+    gap: 1em;
 
     input {
         // margin-top: 100px;
@@ -48,11 +48,15 @@
     }
 }
 
+.girar {
+    animation: spin 1s infinite ease-out;
+}
+
 @keyframes spin {
     from {
       transform: rotate(0deg);
     }
     to {
-      transform: rotate(360deg);
+      transform: rotate(720deg);
     }
 }

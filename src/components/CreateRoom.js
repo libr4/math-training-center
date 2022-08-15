@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import styles from './styles/CreateRoom.module.scss';
 import { useSocketContext } from '../context/SocketContext.js';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { useAppContext } from '../context/AppContext.js';
+import RoomsList from './RoomsList.js';
 
 
 
 export default function CreateRoom() {
   
   // const [room, setRoomName] = useState('');
-  const [roomsTest, setRoomTest] = useState([]);
+  const [roomsTest, setRoomList] = useState([]);
   let navigate = useNavigate();
   
   const socket = useSocketContext();
 
-  const { playerName } = useAppContext();
+  const {setPlayerName, playerName, setRoomName, roomName} = useAppContext();
 
   function createRoom() {
     let roomName = prompt("Room name:");
@@ -22,38 +23,24 @@ export default function CreateRoom() {
     socket.emit('roomCreated', data);
     return roomName;
   }
-  
-  const {setPlayerName, setRoomName, roomName, pushPlayerList} = useAppContext();
-  function joinRoom(roomName) {
-    const data = {roomName, playerName};
-    setRoomName(roomName);
-    socket.emit('roomJoined', data);
-  }
 
-  function RoomsList(roomsList) {
-    return (
-      roomsList.map((room, i)=> {
-        return (<Link to={`/room/${room}`} key={i} onClick={() => joinRoom(room)} className={styles['roomsList']}>{room}</Link>);
-      })
-      )
-    }
+    useEffect(() => {
 
-    useEffect(()=>{
-
-    let pName = prompt("Insira um nome ou apelido");
-    setPlayerName(pName);
-     
-    socket.on('newRoom', (roomName) => {
-        setRoomTest(oldState => [...oldState, roomName]);
-    });
-
-    socket.on('roomCreated', (roomName) => {
-      if (roomName) setRoomName(roomName);
+      if (!playerName) {
+        let pName = prompt("Insira um nome ou apelido");
+        setPlayerName(pName);
+      }
+      socket.on('newRoom', (roomName) => {
+        setRoomList(oldState => [...oldState, roomName]);
+      });
+      
+      socket.on('redirectToRoom', (roomName) => {
+        if (roomName) setRoomName(roomName);
     });
 
     return () => {
-      socket.off('shablau');
-      socket.off('roomCreated');
+      socket.off('newRoom');
+      // socket.off('roomCreated');
     }
    }, [])
 
@@ -64,7 +51,7 @@ export default function CreateRoom() {
   return (
     <div className={styles['createRoomContainer']}>
         <div className={styles['rooms']}>ROOMS:
-            {RoomsList(roomsTest)}
+            <RoomsList roomsList={roomsTest} />
         </div>
           <div>
             <button onClick={createRoom}>CREATE</button>

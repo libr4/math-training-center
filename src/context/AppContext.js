@@ -29,7 +29,7 @@ export function AppProvider({children}) {
     function setQuestionTime() {
         let questionTime = Date.now();
         dispatch({type:"QUESTION_TIME", payload:questionTime});
-      }
+    }
 
       function answerTimeCalc() {
         let currentTime = Date.now();

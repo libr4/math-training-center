@@ -1,5 +1,6 @@
 import {Server} from 'socket.io';
 import { expressionGenerator } from './utils.js';
+import {Room, Player} from './room.js';
 
 const io = new Server(5000, {
     cors: {
@@ -8,59 +9,72 @@ const io = new Server(5000, {
     }
 });
 
-let userCount = {}
-let room = {players:[]};
+let userCount = {};
+let room = {};
 
 io.on('connection', socket => {
-    console.log(socket.id)
-    socket.on('right-answer', answerTime => {
-        socket.emit('congrats', answerTime);
-        socket.emit('acertaram', 'nao foi vc');
+
+    console.log(socket.id);
+    socket.on('right-answer', data => {
+        let question = data.question + 1;
+        let winnerInfo;
+        for (let p of room[data.roomName].getPlayers()) {
+            if (p.playerName === data.playerName) {
+                // p.points = ((p.points) + 100000/data.answerT) || 100000/data.answerT;
+                p.setScore(data.answerT);
+                // p.totalTimePassed = (p.totalTimePassed + data.answerT) || data.answerT;
+                p.setTotalTimePlayed(data.answerT);
+                // p.velocity = p.totalTimePassed / question;
+                p.setVelocity(question);
+                winnerInfo = p;
+                break;
+            }
+        }
+        // socket.emit('congrats', data.roomName);
+        io.to(data.roomName).emit('updateInfo', winnerInfo);
     });
 
-    // socket.on('name', username => {
-    //     socket.emit('name', username);
-    //     console.log('username', username, socket.id);
-    // });
-
     socket.on('roomCreated', (data) => {
-        // userCount[roomName] = userCount[roomName] ? userCount[roomName] + 1 : 1; 
         socket.join(data.roomName);
         userCount[data.roomName] = 1; 
-        room['players'][0] = {playerName:data.playerName};
-        room[data.roomName] = {roomCreator:socket.id};
+        // room[data.roomName] = {players:[]};
+        room[data.roomName] = new Room(data.roomName, socket.id, 2);
+        // room[data.roomName]['players'][0] = {playerName:data.playerName};
+        room[data.roomName].addPlayer(new Player(data.playerName));
+        console.log('here', room[data.roomName].getSize(), room[data.roomName].getPlayers());
+        // room[data.roomName].roomCreator = socket.id;
+        socket.emit('redirectToRoom', data.roomName);
         io.emit('newRoom', data.roomName);
-        socket.emit('roomCreated', data.roomName);
+
         console.log(userCount[data.roomName], data.roomName, socket.id, data.playerName);
-        // if(userCount[data.roomName] == 2) io.to(data.roomName).emit('startGame', "comecem os jogos");
     });
 
     socket.on('roomJoined', (data) => {
+
         socket.join(data.roomName);
-        room['players'][userCount[data.roomName]] = {playerName:data.playerName};
-        userCount[data.roomName] = userCount[data.roomName] + 1; 
-        
-        io.to(data.roomName).emit('players', room['players']);
+        // room[data.roomName]['players'][userCount[data.roomName]] = {playerName:data.playerName};
+        room[data.roomName].addPlayer(new Player(data.playerName));
+        console.log('here', room[data.roomName].getSize())
+        // userCount[data.roomName] = userCount[data.roomName] + 1; 
+        io.to(data.roomName).emit('players', room[data.roomName].getPlayers());
+
     });
 
     socket.on('ready', (data) => {
-        // console.log(data)
         const playerName = data.playerName;
         const isReady = data.isReady;
-    
-        io.to(data.roomName).emit('whoIsReady', {playerName, isReady});
-        // if (room['players'].length === 2) {
 
-        //     io.to(data.roomName).emit('setExpression', ) 
-        // }
-    })
+        io.to(data.roomName).emit('whoIsReady', {playerName, isReady});
+    });
 
     socket.on('expression', (info) => {
-        if (room[info.roomName]?.roomCreator === socket.id) {
+        console.log("entrou aqui")
+        if (room[info.roomName].getCreator() === socket.id) { //only room creator can request new expressions, to avoid multiple requests
             const expression = expressionGenerator(info.numberOfOperations, info.level);
             console.log(expression);
+
             io.to(info.roomName).emit('setExpression', expression);
         }
-    })
-    // socket.on('shablau')
+    });
+    
 });

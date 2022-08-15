@@ -27,5 +27,5 @@ root.render(
         </BrowserRouter>
       </AppProvider>
     </SocketProvider>
-  //</React.StrictMode>
+  //{/* </React.StrictMode> */}
 );

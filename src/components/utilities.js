@@ -1,4 +1,5 @@
 import {evaluate} from 'mathjs';
+import {re5, la5, mi5, la4, re6} from '../notes/index.js'
 
 function randomNumber(max = 4, min = 0) {
   return parseInt((Math.random() * (max - min)) + min);
@@ -172,4 +173,33 @@ function expressionGenerator(n, level) {
 	return expression;
 }
 
-export {randomNumber, getRandomOperation, putParenthesis, putSpaces, catchLevel, expressionGenerator, reduceDouble};
+// function getAnswer(event) {
+    
+//     if (event.target.value == evaluate(expression)) {
+//       const answerT = answerTim();
+//       socket.emit('right-answer', answerT);
+//       setSpin(true)
+//       setTimeout(() => setSpin(false), 1000);
+//       answerTimeCalc(); //also calculates totalTime
+//       callNextQuestion();
+//       event.target.value = '';
+//     }
+//   }
+
+  function playAudio(path) {
+	const sound = new Audio(path);
+	sound.play();
+  }
+
+  const playTrack = (question) => {
+	if (question % 6 == 0) playAudio(re5);
+	else if (question % 6 == 1) playAudio(la5);
+	else if (question % 6 == 2) playAudio(re6);
+	else if (question % 6 == 3) playAudio(la4);
+	else if (question % 6 == 4) playAudio(mi5);
+	else if (question % 6 == 5) playAudio(la5);
+  }
+
+export {randomNumber, getRandomOperation, putParenthesis,
+	 putSpaces, catchLevel, expressionGenerator,
+	  reduceDouble, playAudio, playTrack};
