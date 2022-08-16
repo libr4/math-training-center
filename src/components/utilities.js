@@ -109,13 +109,9 @@ function expressionGenerator(n, level) {
 		for (let i = 0; i < n; i++) {
 			if (i % 2 == 0) {    
 				let {operation, rangeA, rangeB} = catchLevel(level);
-				// console.log(operation, rangeA, rangeB)
 				let x = randomNumber(...rangeA)
 				let y = randomNumber(...rangeB)
-				// let operation = getRandomOperation(difficulty.operations);
-				// let range = generateRange(operation, 0);
-				// let x = randomNumber(...range[0])
-				// let y = randomNumber(...range[1])
+			
 				if (operation == '-') {
 					//if it's a subtraction of two operands, this guarantees the result is >= 0
 					if (y > x) {

@@ -8,7 +8,7 @@ const reducer = (state, action) => {
         case "CALL_NEXT_QUESTION":
             return {
                 ...state,
-                question: action.payload
+                question: state.question + 1
             }
         case "UPDATE_POINTS":
             return {

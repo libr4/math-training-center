@@ -5,8 +5,6 @@ import {useNavigate} from 'react-router-dom';
 import { useAppContext } from '../context/AppContext.js';
 import RoomsList from './RoomsList.js';
 
-
-
 export default function CreateRoom() {
   
   // const [room, setRoomName] = useState('');

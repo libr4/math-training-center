@@ -5,6 +5,7 @@ class Room {
 		this.players = [];
 		this.maxSize = maxSize;
 		this.password = password;
+        this.level = 0;
 	}
 	getSize() {
 		return this.players.length;
@@ -20,6 +21,13 @@ class Room {
     }
     getPlayers() {
         return this.players;
+    }
+    setLevel(question) {
+        const levelUp = question && question % 5 === 0; //if question is over 0 and multiple of 5...
+        this.level = this.level + (levelUp && 1); // it levels up
+    }
+    getLevel() {
+        return this.level;
     }
 }
 

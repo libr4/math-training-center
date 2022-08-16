@@ -39,15 +39,14 @@ export function AppProvider({children}) {
       }
 
       function writeExpression() {
-        let info = {numberOfOperations:state.numberOfOperations, level:state.level, roomName:state.roomName};
+        let info = {numberOfOperations:state.numberOfOperations, question:state.question, roomName:state.roomName};
         socket.emit('expression', info);
         // dispatch({type:"MAKE_EXPRESSION", payload:expression});
         setQuestionTime();
       }
     
       function callNextQuestion() {
-        let question = state.question + 1;
-        dispatch({type: "CALL_NEXT_QUESTION", payload: question});
+        dispatch({type: "CALL_NEXT_QUESTION"});
         // console.log(state.question)
       }
     

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext.js';
 
 export default function RoomsList(props) {
-    const {socket} = useSocketContext();
+    const socket = useSocketContext();
     const {setRoomName, playerName} = useAppContext();
     
     function joinRoom(roomName) {

@@ -20,29 +20,22 @@ io.on('connection', socket => {
         let winnerInfo;
         for (let p of room[data.roomName].getPlayers()) {
             if (p.playerName === data.playerName) {
-                // p.points = ((p.points) + 100000/data.answerT) || 100000/data.answerT;
                 p.setScore(data.answerT);
-                // p.totalTimePassed = (p.totalTimePassed + data.answerT) || data.answerT;
                 p.setTotalTimePlayed(data.answerT);
-                // p.velocity = p.totalTimePassed / question;
                 p.setVelocity(question);
                 winnerInfo = p;
                 break;
             }
         }
-        // socket.emit('congrats', data.roomName);
         io.to(data.roomName).emit('updateInfo', winnerInfo);
     });
 
     socket.on('roomCreated', (data) => {
         socket.join(data.roomName);
         userCount[data.roomName] = 1; 
-        // room[data.roomName] = {players:[]};
         room[data.roomName] = new Room(data.roomName, socket.id, 2);
-        // room[data.roomName]['players'][0] = {playerName:data.playerName};
         room[data.roomName].addPlayer(new Player(data.playerName));
         console.log('here', room[data.roomName].getSize(), room[data.roomName].getPlayers());
-        // room[data.roomName].roomCreator = socket.id;
         socket.emit('redirectToRoom', data.roomName);
         io.emit('newRoom', data.roomName);
 
@@ -68,11 +61,9 @@ io.on('connection', socket => {
     });
 
     socket.on('expression', (info) => {
-        console.log("entrou aqui")
         if (room[info.roomName].getCreator() === socket.id) { //only room creator can request new expressions, to avoid multiple requests
-            const expression = expressionGenerator(info.numberOfOperations, info.level);
-            console.log(expression);
-
+            room[info.roomName].setLevel(info.question);
+            const expression = expressionGenerator(info.numberOfOperations, room[info.roomName].getLevel());
             io.to(info.roomName).emit('setExpression', expression);
         }
     });

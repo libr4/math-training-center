@@ -11,14 +11,13 @@ import { playAudio, playTrack, reduceDouble } from '../components/utilities.js'
 export default function MultiGameRoom() {
   const socket = useSocketContext();
 
-  const {roomName, playerName,
-        playerList, pushPlayerList,
+  const {roomName, playerName, question,
+        playerList, callNextQuestion,
         writeExpression, questionTime} = useAppContext(); 
 
   const [players, setPlayers] = useState(playerList);
   const [expression, setExpression] = useState('');
-  const [expressionData, setExpressionData] = useState({});
-  const [question, setQuestion] = useState(0);
+  // const [question, setQuestion] = useState(0);
   const [points, setPoints] = useState(0);
   const [velocity, setVelocity] = useState(0);
   const [spin, setSpin] = useState(false);
@@ -69,12 +68,14 @@ export default function MultiGameRoom() {
           return p;
         }));
         setExpression('')
-        setTimeout(() => {setPlayers(players => players.map(p => {
+        setTimeout(() => {
+          setPlayers(players => players.map(p => {
           p.spin = false;
           return p;
         }))}, 1000);
       }
-      setQuestion((oldValue) => oldValue + 1);
+      console.log('its calling');
+      callNextQuestion();
     })
 
     return () => {
@@ -83,7 +84,6 @@ export default function MultiGameRoom() {
   }, []);
 
   const [ready, setReady] = useState(false);
-
   useEffect(()=> {
     if (ready && players[0]?.isReady) {
       let waitExpression = setTimeout(writeExpression, 5000);
@@ -92,18 +92,6 @@ export default function MultiGameRoom() {
       }
     }  
   }, [ready, players[0]?.isReady, question])
-
-  // useEffect(()=> {
-  //   const waitExpression = setTimeout(() => {
-  //     console.log('question dependency')
-  //     writeExpression();
-  //   }, 5000);
-
-  //   return () => {
-  //     clearTimeout(waitExpression);
-  //   }
-  // }, [question]);
-
 
   function toggleReady() {
     const isReady = !ready;
@@ -124,17 +112,11 @@ export default function MultiGameRoom() {
       setExpression('');
       const answerT = timeOfAnswer();
       const data = {playerName, roomName, answerT, question};
+      playTrack(question);
       socket.emit('right-answer', data);
       console.log('working so far...')
       setSpin(true);
-      // setSpin(true)
       setTimeout(() => setSpin(false), 1000);
-      // playTrack(question);
-      // answerTimeCalc(); //also calculates totalTim
-      
-      // console.log(answerTime)
-    //  if (state.answerTime) updatePoints();
-      // callNextQuestion();
       event.target.value = '';
     }
   }
