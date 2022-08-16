@@ -6,7 +6,6 @@ import { reduceDouble } from './utilities.js';
 
 export default function Sidebar({children}) {
   const {points, answerTime, velocity} = useAppContext();  
-  SSSSSSSS
   return (
     <div className={styles['sidebar']}>
         {children}
