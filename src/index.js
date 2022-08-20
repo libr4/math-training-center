@@ -12,7 +12,7 @@ import SoloGameRoom from './views/SoloGameRoom.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <SocketProvider>
       <AppProvider>
         <BrowserRouter>
@@ -29,5 +29,5 @@ root.render(
         </BrowserRouter>
       </AppProvider>
     </SocketProvider>
-   </React.StrictMode>
+  //  </React.StrictMode>
 );
