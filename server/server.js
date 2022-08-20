@@ -2,7 +2,7 @@ import {Server} from 'socket.io';
 import { expressionGenerator } from './utils.js';
 import {Room, Player} from './room.js';
 
-const io = new Server(5000, {
+const io = new Server(4000, {
     cors: {
         origin: "http://localhost:3000",
         methods: ["GET", "POST"]

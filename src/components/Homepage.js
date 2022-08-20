@@ -7,7 +7,7 @@ export default function Homepage() {
   <>
   <div className={styles['buttonContainer']}>
 
-      <Link to='/' className={styles['link']}>
+      <Link to='/solo' className={styles['link']}>
         <button>SOLO</button>
       </Link>
 
